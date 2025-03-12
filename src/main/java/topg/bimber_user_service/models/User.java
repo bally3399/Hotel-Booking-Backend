@@ -16,6 +16,7 @@ import java.util.Date;
 @Builder
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(unique = true, nullable = false)

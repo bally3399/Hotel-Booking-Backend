@@ -17,7 +17,7 @@ public record UserRequestDto(
 
         @NotBlank(message = "Email cannot be blank")
         @Email(message = "Email should be valid")
-        String email,
-        BigDecimal amount
+        String email
+//        BigDecimal amount
 ) {
 }
