@@ -14,9 +14,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(unique = true, nullable = false)
@@ -33,6 +33,5 @@ public class User {
     private Role role;
     private BigDecimal balance;
     private boolean enabled;
-
 
 }

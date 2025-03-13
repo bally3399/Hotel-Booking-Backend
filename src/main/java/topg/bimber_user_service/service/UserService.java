@@ -17,7 +17,11 @@ import topg.bimber_user_service.exceptions.InvalidUserInputException;
 import topg.bimber_user_service.exceptions.MailNotSentException;
 import topg.bimber_user_service.exceptions.UserNotFoundInDb;
 import topg.bimber_user_service.mail.MailService;
-import topg.bimber_user_service.models.*;
+import topg.bimber_user_service.models.NotificationEmail;
+import topg.bimber_user_service.models.Role;
+
+import topg.bimber_user_service.models.User;
+import topg.bimber_user_service.models.UserVerificationToken;
 import topg.bimber_user_service.repository.UserRepository;
 import topg.bimber_user_service.repository.UserVerificationRepository;
 
@@ -37,6 +41,17 @@ public class UserService implements IUserService {
     private final JwtUtils jwtUtils;
     private final MailService mailService;
     // Creates a new user and sends a verification email
+    private void validateUserInput(UserRequestDto userRequestDto) {
+        if (StringUtils.isBlank(userRequestDto.email()) ||
+                StringUtils.isBlank(userRequestDto.password()) ||
+                StringUtils.isBlank(userRequestDto.username())) {
+            throw new InvalidUserInputException("Email, password, or username cannot be blank.");
+        }
+        if (userRepository.findByEmail(userRequestDto.email()).isPresent()) {
+            throw new InvalidUserInputException("Email is already Taken");
+        }
+    }
+
     @Transactional
     @Override
     public UserCreatedDto createUser(UserRequestDto userRequestDto) {
@@ -49,17 +64,6 @@ public class UserService implements IUserService {
         sendVerificationEmail(user, token);
 
         return buildUserCreatedResponse(user);
-    }
-
-    private void validateUserInput(UserRequestDto userRequestDto) {
-        if (StringUtils.isBlank(userRequestDto.email()) ||
-                StringUtils.isBlank(userRequestDto.password()) ||
-                StringUtils.isBlank(userRequestDto.username())) {
-            throw new InvalidUserInputException("Email, password, or username cannot be blank.");
-        }
-        if (userRepository.findByEmail(userRequestDto.email()).isPresent()) {
-            throw new InvalidUserInputException("Email is already Taken");
-        }
     }
 
     private User buildUser(UserRequestDto userRequestDto) {
