@@ -23,6 +23,7 @@ import topg.bimber_user_service.utils.JwtUtils;
 import static topg.bimber_user_service.utils.ValidationUtils.isValidEmail;
 import static topg.bimber_user_service.utils.ValidationUtils.isValidPassword;
 
+
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
@@ -90,26 +91,6 @@ public class AdminServiceImpl implements AdminService {
 
 
 
-
-
-    private void sendActivationEmail(Admin admin, String token) {
-        String activationUrl = "http://localhost:9090/api/v1/admin/accountVerification/" + token;
-        String emailBody = String.format(
-                "Thank you for signing up to our hotel, please click on the below URL to activate your account: %s",
-                activationUrl
-        );
-
-        mailService.sendMail(new NotificationEmail(
-                "Please activate your account",
-                admin.getEmail(),
-                emailBody
-        ));
-    }
-
-
-
-
-    // Retrieves an admin by ID
     @Override
     public UserResponseDto getAdminById(String adminId) {
         Admin admin = adminRepository.findById(adminId)
@@ -120,7 +101,8 @@ public class AdminServiceImpl implements AdminService {
         return new UserResponseDto(admin.getEmail(), admin.getUsername(), admin.getId());
     }
 
-
+    // Updates admin details by ID
+  
     // Deletes an admin by ID
     @Override
     public String deleteAdminById(String adminId) {
