@@ -10,7 +10,7 @@ import topg.bimber_user_service.dto.requests.LoginRequestDto;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.dto.requests.UserRequestDto;
 import topg.bimber_user_service.service.AdminServiceImpl;
-import topg.bimber_user_service.service.UserService;
+import topg.bimber_user_service.service.UserServiceImpl;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -18,21 +18,22 @@ import topg.bimber_user_service.service.UserService;
 @CrossOrigin(origins = "*")
 public class AuthController {
     private final AdminServiceImpl adminServiceImpl;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
 
-    @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<JwtResponseDto> loginUser(@RequestBody LoginRequestDto loginRequestDto) {
 
-        JwtResponseDto message = userService.loginUser(loginRequestDto);
-        return ResponseEntity.ok(message);
-    }
+//    @PostMapping("/login")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<JwtResponseDto> loginUser(@RequestBody LoginRequestDto loginRequestDto) {
+//
+//        JwtResponseDto message = userServiceImpl.loginUser(loginRequestDto);
+//        return ResponseEntity.ok(message);
+//    }
 
 
     @PostMapping("/user/register")
     public ResponseEntity<UserCreatedDto> createUser(@Valid @RequestBody UserRequestDto userRequestDto) {
-        UserCreatedDto message = userService.createUser(userRequestDto);
+        UserCreatedDto message = userServiceImpl.createUser(userRequestDto);
         return ResponseEntity.ok(message);
     }
 

@@ -11,7 +11,7 @@ import topg.bimber_user_service.dto.requests.HotelDtoFilter;
 import topg.bimber_user_service.dto.requests.HotelRequestDto;
 import topg.bimber_user_service.dto.responses.HotelResponseDto;
 import topg.bimber_user_service.exceptions.*;
-import topg.bimber_user_service.service.HotelService;
+import topg.bimber_user_service.service.HotelServiceImpl;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class HotelController {
-    private final HotelService hotelService;
+    private final HotelServiceImpl hotelServiceImpl;
 
 
     @PostMapping("/create")
@@ -34,7 +34,7 @@ public class HotelController {
             @RequestParam("pictures[]") List<MultipartFile> pictures) {
 
         try {
-            HotelResponseDto response = hotelService.createHotel(name, state, location, description, amenities, pictures);
+            HotelResponseDto response = hotelServiceImpl.createHotel(name, state, location, description, amenities, pictures);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Failed to create hotel", e.getMessage()));
@@ -44,7 +44,7 @@ public class HotelController {
     @GetMapping("/state/{state}")
     public ResponseEntity<?> getHotelsByState(@PathVariable String state) {
         try {
-            List<HotelDtoFilter> hotels = hotelService.getHotelsByState(state);
+            List<HotelDtoFilter> hotels = hotelServiceImpl.getHotelsByState(state);
 
             if (hotels.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -63,7 +63,7 @@ public class HotelController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> editHotelById(@PathVariable("id") Long id, @RequestBody HotelRequestDto hotelRequestDto) {
         try {
-            String message = hotelService.editHotelById(id, hotelRequestDto);
+            String message = hotelServiceImpl.editHotelById(id, hotelRequestDto);
             return ResponseEntity.ok(new SuccessResponse("Hotel updated successfully", message));
         } catch (HotelNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -81,7 +81,7 @@ public class HotelController {
     @GetMapping("/hotels/{id}")
     public ResponseEntity<?> getHotelById(@PathVariable("id") Long id) {
         try {
-            HotelDtoFilter hotel = hotelService.getHotelById(id);
+            HotelDtoFilter hotel = hotelServiceImpl.getHotelById(id);
             return ResponseEntity.ok(hotel);
         } catch (HotelNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -96,7 +96,7 @@ public class HotelController {
     @GetMapping("/count")
     public ResponseEntity<?> getTotalHotelsInState(@RequestParam String state) {
         try {
-            int count = hotelService.getTotalHotelsInState(state);
+            int count = hotelServiceImpl.getTotalHotelsInState(state);
 
             if (count == 0) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -117,7 +117,7 @@ public class HotelController {
     @GetMapping("/most-booked/{state}")
     public ResponseEntity<?> getMostBookedHotelsByState(@PathVariable String state) {
         try {
-            List<HotelDtoFilter> hotels = hotelService.getMostBookedHotelsByState(state);
+            List<HotelDtoFilter> hotels = hotelServiceImpl.getMostBookedHotelsByState(state);
 
             if (hotels.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -138,7 +138,7 @@ public class HotelController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteHotel(@PathVariable Long id) {
         try {
-            String message = hotelService.deleteHotelById(id);
+            String message = hotelServiceImpl.deleteHotelById(id);
             return ResponseEntity.ok(message);
         } catch (InvalidUserInputException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

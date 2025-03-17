@@ -15,7 +15,7 @@ import topg.bimber_user_service.dto.responses.RoomResponseDto;
 import topg.bimber_user_service.exceptions.ErrorResponse;
 import topg.bimber_user_service.exceptions.SuccessResponse;
 import topg.bimber_user_service.exceptions.UserNotFoundInDb;
-import topg.bimber_user_service.service.RoomService;
+import topg.bimber_user_service.service.RoomServiceImpl;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class RoomController {
 
-    private final RoomService roomService;
+    private final RoomServiceImpl roomServiceImpl;
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -58,7 +58,7 @@ public class RoomController {
             }
 
             // ✅ Call service to create the room
-            RoomResponseDto response = roomService.createRoom(roomRequestDto, pictures);
+            RoomResponseDto response = roomServiceImpl.createRoom(roomRequestDto, pictures);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (JsonProcessingException e) {
@@ -96,7 +96,7 @@ public class RoomController {
                         .body(new ErrorResponse("Invalid Input", "Hotel ID must be a valid positive number"));
             }
 
-            String response = roomService.editRoomById(id, roomRequestDto);
+            String response = roomServiceImpl.editRoomById(id, roomRequestDto);
             return ResponseEntity.ok(new SuccessResponse("Success", response));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -113,7 +113,7 @@ public class RoomController {
                 return ResponseEntity.badRequest()
                         .body(new ErrorResponse("Invalid Input", "Room ID must be a valid positive number"));
             }
-            String response = roomService.deleteRoomById(id);
+            String response = roomServiceImpl.deleteRoomById(id);
             return ResponseEntity.ok(new SuccessResponse("Success", response));
         } catch (UserNotFoundInDb e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -133,7 +133,7 @@ public class RoomController {
                         .body(new ErrorResponse("Invalid Input", "Hotel ID must be a valid positive number"));
             }
 
-            List<RoomResponseDto> rooms = roomService.findAllRoomsByHotelId(hotelId);
+            List<RoomResponseDto> rooms = roomServiceImpl.findAllRoomsByHotelId(hotelId);
 
             if (rooms.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -158,7 +158,7 @@ public class RoomController {
             }
 
             // ✅ Check if room exists
-            Boolean isAvailable = roomService.isRoomAvailable(id);
+            Boolean isAvailable = roomServiceImpl.isRoomAvailable(id);
             if (isAvailable == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ErrorResponse("Not Found", "Room with ID " + id + " not found"));
@@ -181,7 +181,7 @@ public class RoomController {
                         .body(new ErrorResponse("Invalid Input", "Hotel ID must be a valid positive number"));
             }
 
-            List<RoomResponseDto> availableRooms = roomService.findAllAvailableHotelRooms(hotelId);
+            List<RoomResponseDto> availableRooms = roomServiceImpl.findAllAvailableHotelRooms(hotelId);
             if (availableRooms.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ErrorResponse("Not Found", "No available rooms found for hotel ID " + hotelId));
@@ -204,7 +204,7 @@ public class RoomController {
                         .body(new ErrorResponse("Invalid Input", "Hotel ID and Room ID must be valid positive numbers"));
             }
 
-            RoomResponseDto response = roomService.deactivateRoomByHotelId(hotelId, roomId);
+            RoomResponseDto response = roomServiceImpl.deactivateRoomByHotelId(hotelId, roomId);
             return ResponseEntity.ok(response);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -226,7 +226,7 @@ public class RoomController {
                         .body(new ErrorResponse("Invalid Input", "Hotel ID and Room ID must be valid positive numbers"));
             }
 
-            RoomResponseDto response = roomService.activateRoomByHotelId(hotelId, roomId);
+            RoomResponseDto response = roomServiceImpl.activateRoomByHotelId(hotelId, roomId);
             return ResponseEntity.ok(response);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -246,7 +246,7 @@ public class RoomController {
                         .body(new ErrorResponse("Invalid Input", "Hotel ID must be a positive number and type cannot be empty"));
             }
 
-            List<RoomResponseDto> filteredRooms = roomService.filterHotelRoomByType(hotelId, type);
+            List<RoomResponseDto> filteredRooms = roomServiceImpl.filterHotelRoomByType(hotelId, type);
             if (filteredRooms.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ErrorResponse("Not Found", "No rooms found for type " + type + " in hotel ID " + hotelId));
@@ -277,7 +277,7 @@ public class RoomController {
                         .body(new ErrorResponse("Invalid Input", "State cannot be empty"));
             }
 
-            List<RoomResponseDto> filteredRooms = roomService.filterByPriceAndState(minPrice, maxPrice, state);
+            List<RoomResponseDto> filteredRooms = roomServiceImpl.filterByPriceAndState(minPrice, maxPrice, state);
             if (filteredRooms.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ErrorResponse("Not Found", "No rooms found in " + state + " within the given price range"));
