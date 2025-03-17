@@ -9,36 +9,36 @@ import topg.bimber_user_service.dto.responses.JwtResponseDto;
 import topg.bimber_user_service.dto.requests.LoginRequestDto;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.dto.requests.UserRequestDto;
-import topg.bimber_user_service.service.AdminService;
-import topg.bimber_user_service.service.UserService;
+import topg.bimber_user_service.service.AdminServiceImpl;
+import topg.bimber_user_service.service.UserServiceImpl;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class AuthController {
-    private final AdminService adminService;
-    private final UserService userService;
+    private final AdminServiceImpl adminServiceImpl;
+    private final UserServiceImpl userServiceImpl;
 
 
-    @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<JwtResponseDto> loginUser(@RequestBody LoginRequestDto loginRequestDto) {
-
-        JwtResponseDto message = userService.loginUser(loginRequestDto);
-        return ResponseEntity.ok(message);
-    }
+//    @PostMapping("/login")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<JwtResponseDto> loginUser(@RequestBody LoginRequestDto loginRequestDto) {
+//
+//        JwtResponseDto message = userServiceImpl.loginUser(loginRequestDto);
+//        return ResponseEntity.ok(message);
+//    }
 
 
     @PostMapping("/user/register")
     public ResponseEntity<UserCreatedDto> createUser(@Valid @RequestBody UserRequestDto userRequestDto) {
-        UserCreatedDto message = userService.createUser(userRequestDto);
+        UserCreatedDto message = userServiceImpl.createUser(userRequestDto);
         return ResponseEntity.ok(message);
     }
 
     @PostMapping("/admin/register")
     public ResponseEntity<UserCreatedDto> createAdmin(@Valid @RequestBody UserRequestDto userRequestDto) {
-        UserCreatedDto message = adminService.createAdmin(userRequestDto);
+        UserCreatedDto message = adminServiceImpl.createAdmin(userRequestDto);
         return ResponseEntity.ok(message);
     }
 

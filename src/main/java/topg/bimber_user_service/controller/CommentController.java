@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import topg.bimber_user_service.dto.responses.CommentResponseDto;
-import topg.bimber_user_service.service.CommentService;
+import topg.bimber_user_service.service.CommentServiceImpl;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class CommentController {
 
-    private final CommentService commentService;
+    private final CommentServiceImpl commentServiceImpl;
 
     @PostMapping("/add/{hotelId}")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -24,7 +24,7 @@ public class CommentController {
             @PathVariable Long hotelId,
             @RequestParam String content) {
         try {
-            CommentResponseDto comment = commentService.addComment(userId, hotelId, content);
+            CommentResponseDto comment = commentServiceImpl.addComment(userId, hotelId, content);
             return ResponseEntity.ok(comment);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -33,12 +33,12 @@ public class CommentController {
 
     @GetMapping("/hotel/{hotelId}")
     public ResponseEntity<List<CommentResponseDto>> getCommentsByHotel(@PathVariable Long hotelId) {
-        return ResponseEntity.ok(commentService.getCommentsByHotel(hotelId));
+        return ResponseEntity.ok(commentServiceImpl.getCommentsByHotel(hotelId));
     }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getCommentsByUser(@PathVariable String userId) {
-        return ResponseEntity.ok(commentService.getCommentsByUser(userId));
+        return ResponseEntity.ok(commentServiceImpl.getCommentsByUser(userId));
     }
 
     @DeleteMapping("/{hotelId}/{commentId}")
@@ -46,7 +46,7 @@ public class CommentController {
     public ResponseEntity<?> deleteComment(@PathVariable Long hotelId, @PathVariable Long commentId,
                                            @RequestParam String userId) {
         try {
-            commentService.deleteComment(hotelId, commentId, userId);
+            commentServiceImpl.deleteComment(hotelId, commentId, userId);
             return ResponseEntity.ok("Comment deleted successfully.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
