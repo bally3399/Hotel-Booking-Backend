@@ -1,6 +1,7 @@
 package topg.bimber_user_service.service;
 
 import io.micrometer.common.util.StringUtils;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import topg.bimber_user_service.config.JwtUtils;
 import topg.bimber_user_service.dto.*;
+import topg.bimber_user_service.exceptions.EmailAlreadyExistException;
+import topg.bimber_user_service.exceptions.InvalidUserInputException;
 import topg.bimber_user_service.exceptions.MailNotSentException;
 import topg.bimber_user_service.exceptions.UserNotFoundInDb;
 import topg.bimber_user_service.mail.MailService;
@@ -39,11 +42,11 @@ public class AdminService implements IAdminService {
     @Transactional
     public UserCreatedDto createAdmin(UserRequestDto userRequestDto) {
         if (!isValidRequest(userRequestDto)) {
-            return createFailureResponse("Email, password, or username cannot be blank.");
+            throw new InvalidUserInputException("Email, password, or username cannot be blank.");
         }
 
-        if (isEmailTaken(userRequestDto.email())) {
-            return createFailureResponse("Email is already taken.");
+        if (isEmailTaken(userRequestDto.getEmail())) {
+            throw new EmailAlreadyExistException("Email is already taken.");
         }
 
         Admin admin = createAdminEntity(userRequestDto);
@@ -52,7 +55,7 @@ public class AdminService implements IAdminService {
         String token = generateVerificationToken(admin);
         sendActivationEmail(admin, token);
 
-        return createSuccessResponse(admin);
+        return (admin);
     }
 
     private boolean isValidRequest(UserRequestDto userRequestDto) {
@@ -92,14 +95,14 @@ public class AdminService implements IAdminService {
         ));
     }
 
-    private UserCreatedDto createFailureResponse(String message) {
-        return new UserCreatedDto(false, message, null);
-    }
-
-    private UserCreatedDto createSuccessResponse(Admin admin) {
-        UserResponseDto userResponseDto = new UserResponseDto(admin.getEmail(), admin.getUsername(), admin.getId());
-        return new UserCreatedDto(true, "User with " + admin.getUsername() + " created", userResponseDto);
-    }
+//    private UserCreatedDto createFailureResponse(String message) {
+//        return new UserCreatedDto(false, message, null);
+//    }
+//
+//    private UserCreatedDto createSuccessResponse(Admin admin) {
+//        UserResponseDto userResponseDto = new UserResponseDto(admin.getEmail(), admin.getUsername(), admin.getId());
+//        return new UserCreatedDto(true, "User with " + admin.getUsername() + " created", userResponseDto);
+//    }
 
 
     // Generates a unique user ID for the admin
