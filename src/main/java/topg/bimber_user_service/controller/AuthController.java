@@ -9,7 +9,7 @@ import topg.bimber_user_service.dto.responses.JwtResponseDto;
 import topg.bimber_user_service.dto.requests.LoginRequestDto;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.dto.requests.UserRequestDto;
-import topg.bimber_user_service.service.AdminService;
+import topg.bimber_user_service.service.AdminServiceImpl;
 import topg.bimber_user_service.service.UserService;
 
 @RestController
@@ -17,7 +17,7 @@ import topg.bimber_user_service.service.UserService;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class AuthController {
-    private final AdminService adminService;
+    private final AdminServiceImpl adminServiceImpl;
     private final UserService userService;
 
 
@@ -38,7 +38,7 @@ public class AuthController {
 
     @PostMapping("/admin/register")
     public ResponseEntity<UserCreatedDto> createAdmin(@Valid @RequestBody UserRequestDto userRequestDto) {
-        UserCreatedDto message = adminService.createAdmin(userRequestDto);
+        UserCreatedDto message = adminServiceImpl.createAdmin(userRequestDto);
         return ResponseEntity.ok(message);
     }
 
