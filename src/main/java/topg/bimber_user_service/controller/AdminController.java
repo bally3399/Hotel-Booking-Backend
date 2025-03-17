@@ -28,29 +28,29 @@ public class AdminController {
         return ResponseEntity.ok(message);
     }
 
-    @PutMapping("/me/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<UserResponseDto> editUserById(@Valid @RequestBody UserAndAdminUpdateDto adminUpdateRequestDto, @PathVariable("id") String userId) {
-        UserResponseDto message = adminServiceImpl.editAdminById(adminUpdateRequestDto, userId);
-        return ResponseEntity.ok(message);
-    }
-
-    @DeleteMapping("/me/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteAdminById(@PathVariable("id") String userId) {
-        String message = adminServiceImpl.deleteAdminById(userId);
-        return ResponseEntity.ok(message);
-    }
-
-    @GetMapping("accountVerification/{token}")
-    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
-        try {
-            adminServiceImpl.verifyToken(token);  // Assuming verifyToken checks the token validity and does the necessary action
-            return new ResponseEntity<>("Account created successfully", OK);
-        } catch (Exception e) {
-            // Handle errors like invalid token
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token.");
-        }
-    }
+//    @PutMapping("/me/edit/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public ResponseEntity<UserResponseDto> editUserById(@Valid @RequestBody UserAndAdminUpdateDto adminUpdateRequestDto, @PathVariable("id") String userId) {
+//        UserResponseDto message = adminServiceImpl.editAdminById(adminUpdateRequestDto, userId);
+//        return ResponseEntity.ok(message);
+//    }
+//
+//    @DeleteMapping("/me/delete/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public ResponseEntity<String> deleteAdminById(@PathVariable("id") String userId) {
+//        String message = adminServiceImpl.deleteAdminById(userId);
+//        return ResponseEntity.ok(message);
+//    }
+//
+//    @GetMapping("accountVerification/{token}")
+//    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
+//        try {
+//            adminServiceImpl.verifyToken(token);  // Assuming verifyToken checks the token validity and does the necessary action
+//            return new ResponseEntity<>("Account created successfully", OK);
+//        } catch (Exception e) {
+//            // Handle errors like invalid token
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token.");
+//        }
+//    }
 
 }
