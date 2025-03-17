@@ -54,14 +54,13 @@ public class AdminService implements IAdminService {
 
         String token = generateVerificationToken(admin);
         sendActivationEmail(admin, token);
-
-        return (admin);
+        return new UserCreatedDto();
     }
 
     private boolean isValidRequest(UserRequestDto userRequestDto) {
-        return StringUtils.isNotBlank(userRequestDto.email()) &&
-                StringUtils.isNotBlank(userRequestDto.password()) &&
-                StringUtils.isNotBlank(userRequestDto.username());
+        return StringUtils.isNotBlank(userRequestDto.getEmail()) &&
+                StringUtils.isNotBlank(userRequestDto.getPassword()) &&
+                StringUtils.isNotBlank(userRequestDto.getUsername());
     }
 
     private boolean isEmailTaken(String email) {
