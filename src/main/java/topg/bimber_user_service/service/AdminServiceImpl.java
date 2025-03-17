@@ -4,27 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import topg.bimber_user_service.dto.requests.LoginRequest;
-import topg.bimber_user_service.dto.requests.UserAndAdminUpdateDto;
 import topg.bimber_user_service.dto.requests.UserRequestDto;
 import topg.bimber_user_service.dto.responses.LoginResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.dto.responses.UserResponseDto;
 import topg.bimber_user_service.exceptions.AdminExistException;
 import topg.bimber_user_service.exceptions.InvalidDetailsException;
-import topg.bimber_user_service.exceptions.MailNotSentException;
 import topg.bimber_user_service.exceptions.UserNotFoundInDb;
 import topg.bimber_user_service.mail.MailService;
 import topg.bimber_user_service.models.Admin;
-import topg.bimber_user_service.models.AdminVerificationToken;
 import topg.bimber_user_service.models.NotificationEmail;
 import topg.bimber_user_service.repository.AdminRepository;
 import topg.bimber_user_service.repository.AdminVerificationRepository;
 import topg.bimber_user_service.utils.JwtUtils;
 
-import java.util.Random;
-import java.util.UUID;
 
 import static topg.bimber_user_service.utils.ValidationUtils.isValidEmail;
 import static topg.bimber_user_service.utils.ValidationUtils.isValidPassword;
