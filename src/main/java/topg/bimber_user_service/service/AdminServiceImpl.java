@@ -14,9 +14,7 @@ import topg.bimber_user_service.exceptions.InvalidDetailsException;
 import topg.bimber_user_service.exceptions.UserNotFoundInDb;
 import topg.bimber_user_service.mail.MailService;
 import topg.bimber_user_service.models.Admin;
-import topg.bimber_user_service.models.NotificationEmail;
 import topg.bimber_user_service.repository.AdminRepository;
-import topg.bimber_user_service.repository.AdminVerificationRepository;
 import topg.bimber_user_service.utils.JwtUtils;
 
 
@@ -30,7 +28,6 @@ public class AdminServiceImpl implements AdminService {
 
     private final ModelMapper modelMapper;
     private final AdminRepository adminRepository;
-    private final AdminVerificationRepository adminVerificationRepository;
     private final MailService mailService;
 
     @Override
@@ -101,9 +98,7 @@ public class AdminServiceImpl implements AdminService {
         return new UserResponseDto(admin.getEmail(), admin.getUsername(), admin.getId());
     }
 
-    // Updates admin details by ID
-  
-    // Deletes an admin by ID
+
     @Override
     public String deleteAdminById(String adminId) {
         Admin admin = adminRepository.findById(adminId)
