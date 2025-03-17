@@ -1,16 +1,19 @@
 package topg.bimber_user_service.service;
 
 import io.micrometer.common.util.StringUtils;
-import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import topg.bimber_user_service.config.JwtUtils;
-import topg.bimber_user_service.dto.*;
-import topg.bimber_user_service.exceptions.EmailAlreadyExistException;
-import topg.bimber_user_service.exceptions.InvalidUserInputException;
+import topg.bimber_user_service.dto.requests.UserAndAdminUpdateDto;
+import topg.bimber_user_service.dto.requests.UserRequestDto;
+import topg.bimber_user_service.dto.responses.UserCreatedDto;
+import topg.bimber_user_service.dto.responses.UserResponseDto;
+import topg.bimber_user_service.exceptions.InvalidDetailsException;
 import topg.bimber_user_service.exceptions.MailNotSentException;
 import topg.bimber_user_service.exceptions.UserNotFoundInDb;
 import topg.bimber_user_service.mail.MailService;
@@ -21,64 +24,47 @@ import topg.bimber_user_service.models.Role;
 import topg.bimber_user_service.repository.AdminRepository;
 import topg.bimber_user_service.repository.AdminVerificationRepository;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
+
+import static topg.bimber_user_service.utils.ValidationUtils.isValidEmail;
+import static topg.bimber_user_service.utils.ValidationUtils.isValidPassword;
 
 @Service
 @RequiredArgsConstructor
 public class AdminService implements IAdminService {
 
+    private final ModelMapper modelMapper;
     private final AdminRepository adminRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
     private final AdminVerificationRepository adminVerificationRepository;
     private final MailService mailService;
 
-    // Creates a new admin user and sends an email verification token
     @Override
-    @Transactional
     public UserCreatedDto createAdmin(UserRequestDto userRequestDto) {
-        if (!isValidRequest(userRequestDto)) {
-            throw new InvalidUserInputException("Email, password, or username cannot be blank.");
-        }
-
-        if (isEmailTaken(userRequestDto.getEmail())) {
-            throw new EmailAlreadyExistException("Email is already taken.");
-        }
-
-        Admin admin = createAdminEntity(userRequestDto);
+        validateFields(userRequestDto.getEmail(), userRequestDto.getPassword());
+        doesUserExists(userRequestDto.getEmail());
+        Admin admin = modelMapper.map(userRequestDto, Admin.class);
         admin = adminRepository.save(admin);
-
-        String token = generateVerificationToken(admin);
-        sendActivationEmail(admin, token);
-        return new UserCreatedDto();
+        UserCreatedDto response = modelMapper.map(admin, UserCreatedDto.class);
+        response.setMessage("Admin registered successfully");
+        return response;
     }
 
-    private boolean isValidRequest(UserRequestDto userRequestDto) {
-        return StringUtils.isNotBlank(userRequestDto.getEmail()) &&
-                StringUtils.isNotBlank(userRequestDto.getPassword()) &&
-                StringUtils.isNotBlank(userRequestDto.getUsername());
+    private void validateFields(String email, String password) {
+        if (!isValidEmail(email)) throw new InvalidDetailsException("The email you entered is not correct");
+        if (!isValidPassword(password))
+            throw new InvalidDetailsException("Password must be between 8 and 16 characters long, including at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., @, #, $, %, ^).");
+    }
+
+    private void doesUserExists(String email){
+        adminRepository.findByEmail(email)
+                .orElseThrow(()-> new UserNotFoundInDb(String.format("Admin with email: %s already exits", email)));
     }
 
     private boolean isEmailTaken(String email) {
         return adminRepository.findByEmail(email).isPresent();
     }
 
-    private Admin createAdminEntity(UserRequestDto userRequestDto) {
-        return Admin.builder()
-                .id(generateUserId())
-                .username(userRequestDto.username())
-                .email(userRequestDto.email())
-                .password(passwordEncoder.encode(userRequestDto.password()))
-                .createdAt(Date.from(Instant.now()))
-                .updatedAt(Date.from(Instant.now()))
-                .role(Role.ADMIN)
-                .enabled(false)
-                .build();
-    }
 
     private void sendActivationEmail(Admin admin, String token) {
         String activationUrl = "http://localhost:9090/api/v1/admin/accountVerification/" + token;
@@ -94,14 +80,6 @@ public class AdminService implements IAdminService {
         ));
     }
 
-//    private UserCreatedDto createFailureResponse(String message) {
-//        return new UserCreatedDto(false, message, null);
-//    }
-//
-//    private UserCreatedDto createSuccessResponse(Admin admin) {
-//        UserResponseDto userResponseDto = new UserResponseDto(admin.getEmail(), admin.getUsername(), admin.getId());
-//        return new UserCreatedDto(true, "User with " + admin.getUsername() + " created", userResponseDto);
-//    }
 
 
     // Generates a unique user ID for the admin
