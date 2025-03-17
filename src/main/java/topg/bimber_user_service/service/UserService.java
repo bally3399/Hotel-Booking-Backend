@@ -96,15 +96,7 @@ public class UserService implements IUserService {
         ));
     }
 
-    private UserCreatedDto buildUserCreatedResponse(User user) {
-        UserResponseDto userResponseDto = new UserResponseDto(user.getEmail(), user.getUsername(), user.getId());
 
-        return new UserCreatedDto(
-                true,
-                "User with " + user.getUsername() + " created",
-                userResponseDto
-        );
-    }
 
     // Generates a verification token for the user
     private String generateVerificationToken(User user) {
