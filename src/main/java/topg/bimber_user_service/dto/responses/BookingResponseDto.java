@@ -1,6 +1,5 @@
-package topg.bimber_user_service.dto;
+package topg.bimber_user_service.dto.responses;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 public record BookingResponseDto(

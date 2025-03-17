@@ -1,4 +1,6 @@
-package topg.bimber_user_service.dto;
+package topg.bimber_user_service.dto.responses;
+
+import topg.bimber_user_service.dto.requests.HotelDto;
 
 import java.io.Serializable;
 import java.util.List;

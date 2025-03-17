@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import topg.bimber_user_service.dto.CommentResponseDto;
+import topg.bimber_user_service.dto.responses.CommentResponseDto;
 import topg.bimber_user_service.service.CommentService;
 
 import java.util.List;

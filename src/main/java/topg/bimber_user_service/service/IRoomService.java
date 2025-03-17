@@ -1,11 +1,10 @@
 package topg.bimber_user_service.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import topg.bimber_user_service.dto.RoomRequestDto;
-import topg.bimber_user_service.dto.RoomResponseDto;
+import topg.bimber_user_service.dto.requests.RoomRequestDto;
+import topg.bimber_user_service.dto.responses.RoomResponseDto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 public interface IRoomService {

@@ -10,17 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import topg.bimber_user_service.dto.RoomRequestDto;
-import topg.bimber_user_service.dto.RoomResponseDto;
+import topg.bimber_user_service.dto.requests.RoomRequestDto;
+import topg.bimber_user_service.dto.responses.RoomResponseDto;
 import topg.bimber_user_service.exceptions.ErrorResponse;
 import topg.bimber_user_service.exceptions.SuccessResponse;
 import topg.bimber_user_service.exceptions.UserNotFoundInDb;
-import topg.bimber_user_service.models.User;
 import topg.bimber_user_service.service.RoomService;
-import topg.bimber_user_service.service.UserService;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.List;
 
 @RestController

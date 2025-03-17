@@ -1,8 +1,7 @@
-package topg.bimber_user_service.dto;
+package topg.bimber_user_service.dto.requests;
 
 import topg.bimber_user_service.models.State;
 
-import java.io.Serializable;
 import java.util.List;
 
 public record HotelDtoFilter(

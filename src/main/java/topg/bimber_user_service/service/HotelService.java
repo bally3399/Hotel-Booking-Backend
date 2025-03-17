@@ -1,12 +1,14 @@
 package topg.bimber_user_service.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import topg.bimber_user_service.dto.*;
+import topg.bimber_user_service.dto.requests.HotelDto;
+import topg.bimber_user_service.dto.requests.HotelDtoFilter;
+import topg.bimber_user_service.dto.requests.HotelRequestDto;
+import topg.bimber_user_service.dto.responses.HotelResponseDto;
+import topg.bimber_user_service.dto.responses.PictureResponseDto;
 import topg.bimber_user_service.exceptions.InvalidStateException;
 import topg.bimber_user_service.exceptions.InvalidUserInputException;
 import topg.bimber_user_service.models.Hotel;

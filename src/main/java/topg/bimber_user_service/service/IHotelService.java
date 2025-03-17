@@ -1,11 +1,9 @@
 package topg.bimber_user_service.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import topg.bimber_user_service.dto.HotelDto;
-import topg.bimber_user_service.dto.HotelDtoFilter;
-import topg.bimber_user_service.dto.HotelRequestDto;
-import topg.bimber_user_service.dto.HotelResponseDto;
-import topg.bimber_user_service.models.Hotel;
+import topg.bimber_user_service.dto.requests.HotelDtoFilter;
+import topg.bimber_user_service.dto.requests.HotelRequestDto;
+import topg.bimber_user_service.dto.responses.HotelResponseDto;
 
 import java.util.List;
 

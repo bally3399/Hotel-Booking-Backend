@@ -7,17 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import topg.bimber_user_service.dto.HotelDto;
-import topg.bimber_user_service.dto.HotelDtoFilter;
-import topg.bimber_user_service.dto.HotelRequestDto;
-import topg.bimber_user_service.dto.HotelResponseDto;
+import topg.bimber_user_service.dto.requests.HotelDtoFilter;
+import topg.bimber_user_service.dto.requests.HotelRequestDto;
+import topg.bimber_user_service.dto.responses.HotelResponseDto;
 import topg.bimber_user_service.exceptions.*;
-import topg.bimber_user_service.models.State;
-import topg.bimber_user_service.models.User;
 import topg.bimber_user_service.service.HotelService;
-import topg.bimber_user_service.service.UserService;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController

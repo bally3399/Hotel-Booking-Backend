@@ -1,4 +1,4 @@
-package topg.bimber_user_service.dto;
+package topg.bimber_user_service.dto.requests;
 
 import topg.bimber_user_service.models.Room;
 import topg.bimber_user_service.models.Comment;

@@ -1,5 +1,6 @@
-package topg.bimber_user_service.dto;
+package topg.bimber_user_service.dto.requests;
 
+import topg.bimber_user_service.dto.responses.PictureResponseDto;
 import topg.bimber_user_service.models.State;
 
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package topg.bimber_user_service.dto;
+package topg.bimber_user_service.dto.responses;
 
 public record JwtResponseDto(
 
