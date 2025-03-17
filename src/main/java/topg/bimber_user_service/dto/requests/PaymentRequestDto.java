@@ -1,4 +1,4 @@
-package topg.bimber_user_service.dto;
+package topg.bimber_user_service.dto.requests;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

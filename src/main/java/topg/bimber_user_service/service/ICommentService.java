@@ -1,6 +1,6 @@
 package topg.bimber_user_service.service;
 
-import topg.bimber_user_service.dto.CommentResponseDto;
+import topg.bimber_user_service.dto.responses.CommentResponseDto;
 
 import java.util.List;
 

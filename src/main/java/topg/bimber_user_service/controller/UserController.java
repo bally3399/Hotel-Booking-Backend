@@ -6,10 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import topg.bimber_user_service.dto.UserAndAdminUpdateDto;
-import topg.bimber_user_service.dto.UserCreatedDto;
-import topg.bimber_user_service.dto.UserRequestDto;
-import topg.bimber_user_service.dto.UserResponseDto;
+import topg.bimber_user_service.dto.requests.UserAndAdminUpdateDto;
+import topg.bimber_user_service.dto.responses.UserResponseDto;
 import topg.bimber_user_service.models.User;
 import topg.bimber_user_service.service.UserService;
 

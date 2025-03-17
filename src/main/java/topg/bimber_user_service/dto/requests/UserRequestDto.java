@@ -1,10 +1,8 @@
-package topg.bimber_user_service.dto;
+package topg.bimber_user_service.dto.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import java.math.BigDecimal;
 
 public record UserRequestDto(
         @NotBlank(message = "Username cannot be blank")

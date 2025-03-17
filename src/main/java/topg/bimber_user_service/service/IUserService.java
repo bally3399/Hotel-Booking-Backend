@@ -1,9 +1,9 @@
 package topg.bimber_user_service.service;
 
-import topg.bimber_user_service.dto.UserAndAdminUpdateDto;
-import topg.bimber_user_service.dto.UserCreatedDto;
-import topg.bimber_user_service.dto.UserRequestDto;
-import topg.bimber_user_service.dto.UserResponseDto;
+import topg.bimber_user_service.dto.requests.UserAndAdminUpdateDto;
+import topg.bimber_user_service.dto.responses.UserCreatedDto;
+import topg.bimber_user_service.dto.requests.UserRequestDto;
+import topg.bimber_user_service.dto.responses.UserResponseDto;
 
 import java.math.BigDecimal;
 

@@ -2,7 +2,7 @@ package topg.bimber_user_service.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import topg.bimber_user_service.dto.CommentResponseDto;
+import topg.bimber_user_service.dto.responses.CommentResponseDto;
 import topg.bimber_user_service.models.Booking;
 import topg.bimber_user_service.models.Comment;
 import topg.bimber_user_service.models.Hotel;

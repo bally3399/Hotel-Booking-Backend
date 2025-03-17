@@ -1,7 +1,7 @@
 package topg.bimber_user_service.service;
 
-import topg.bimber_user_service.dto.BookingRequestDto;
-import topg.bimber_user_service.dto.BookingResponseDto;
+import topg.bimber_user_service.dto.requests.BookingRequestDto;
+import topg.bimber_user_service.dto.responses.BookingResponseDto;
 
 import java.util.List;
 
