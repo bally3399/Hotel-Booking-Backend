@@ -22,8 +22,7 @@ import static org.springframework.http.HttpStatus.OK;
 @CrossOrigin(origins = "*")
 public class UserController {
     private final UserService userService;
-
-
+    
     @GetMapping("/me/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable("id") String userId, Principal principal) {
         User user = userService.findByUsername(principal.getName());
