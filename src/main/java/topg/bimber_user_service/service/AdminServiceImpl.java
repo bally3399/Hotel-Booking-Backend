@@ -5,8 +5,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import topg.bimber_user_service.dto.requests.LoginRequest;
+import topg.bimber_user_service.dto.requests.UpdateDetailsRequest;
 import topg.bimber_user_service.dto.requests.UserRequestDto;
 import topg.bimber_user_service.dto.responses.LoginResponse;
+import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.dto.responses.UserResponseDto;
 import topg.bimber_user_service.exceptions.AdminExistException;
@@ -55,6 +57,7 @@ public class AdminServiceImpl implements AdminService {
 
 
 
+
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         String email = loginRequest.getEmail();
@@ -87,6 +90,21 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
+    @Override
+    public UpdateDetailsResponse updateAdmin(UpdateDetailsRequest updateUserRequest) {
+        Admin admin = adminRepository.findByEmail(updateUserRequest.getEmail());
+        if(admin.getEmail().equals(updateUserRequest.getEmail())){
+            admin.setEmail(updateUserRequest.getNewEmail());
+            admin.setPassword(updateUserRequest.getPassword());
+            admin.setUsername(updateUserRequest.getUsername());
+            adminRepository.save(admin);
+        }
+        UpdateDetailsResponse response = new UpdateDetailsResponse();
+        response.setFirstName(updateUserRequest.getFirstName());
+        response.setLastName(updateUserRequest.getLastName());
+        response.setMessage("Updated successfully");
+        return response;
+    }
 
     @Override
     public UserResponseDto getAdminById(String adminId) {
