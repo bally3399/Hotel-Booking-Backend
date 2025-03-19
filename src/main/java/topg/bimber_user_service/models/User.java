@@ -16,18 +16,15 @@ import java.util.Date;
 @Table(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     @Column(unique = true, nullable = false)
     private String username;
-
     @Column(unique = true, nullable = false)
     private String email;
-
     private String password;
     private Date createdAt;
     private Date updatedAt;
-
     @Enumerated(EnumType.STRING)
     private Role role;
     private BigDecimal balance;

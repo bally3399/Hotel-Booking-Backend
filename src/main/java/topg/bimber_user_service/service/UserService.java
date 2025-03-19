@@ -9,10 +9,8 @@ import java.math.BigDecimal;
 
 public interface UserService {
     UserCreatedDto createUser(UserRequestDto userRequestDto);
-    UserResponseDto getUserById(String userId);
     UserResponseDto editUserById(UserAndAdminUpdateDto userAndAdminUpdateDto, String userId);
     String deleteUserById(String userId);
     String fundAccount(String userId, BigDecimal amount);
-
-    Long getNumberOfUsers();
+    void deleteAll();
 }
