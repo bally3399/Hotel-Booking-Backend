@@ -1,25 +1,19 @@
 package topg.bimber_user_service.service;
 
-import io.lettuce.core.AbstractRedisAsyncCommands;
-import io.lettuce.core.GeoValue;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import topg.bimber_user_service.dto.requests.UserAndAdminUpdateDto;
+import topg.bimber_user_service.dto.requests.UpdateDetailsRequest;
 import topg.bimber_user_service.dto.requests.UserRequestDto;
+import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.dto.responses.UserResponseDto;
 import topg.bimber_user_service.exceptions.EmailAlreadyExistException;
-import topg.bimber_user_service.exceptions.InvalidDetailsException;
 import topg.bimber_user_service.exceptions.UserNotFoundInDb;
 import topg.bimber_user_service.models.User;
 import topg.bimber_user_service.repository.UserRepository;
 
 import java.math.BigDecimal;
-
-import static topg.bimber_user_service.utils.ValidationUtils.isValidEmail;
-import static topg.bimber_user_service.utils.ValidationUtils.isValidPassword;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -64,5 +58,22 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteAll() {
         userRepository.deleteAll();
+    }
+
+    @Override
+    public UpdateDetailsResponse updateUserDetails(UpdateDetailsRequest updateUserDetails) {
+        User user = userRepository.findByEmail(updateUserDetails.getEmail())
+                .orElseThrow(() -> new UserNotFoundInDb("User not found"));
+
+        if(!user.getPassword().equals(updateUserDetails.getPassword()))
+            throw new IllegalArgumentException("Incorrect password");
+
+        user.setPassword(updateUserDetails.getPassword());
+        user = userRepository.save(user);
+
+        UpdateDetailsResponse response = modelMapper.map(user, UpdateDetailsResponse.class);
+        response.setMessage("Password reset successful");
+        return response;
+
     }
 }
