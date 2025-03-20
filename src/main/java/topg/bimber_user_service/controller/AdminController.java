@@ -6,8 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import topg.bimber_user_service.dto.requests.UpdateDetailsRequest;
 import topg.bimber_user_service.dto.requests.UserAndAdminUpdateDto;
+import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserResponseDto;
+import topg.bimber_user_service.exceptions.UserNotFoundException;
 import topg.bimber_user_service.service.AdminServiceImpl;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -28,29 +31,22 @@ public class AdminController {
         return ResponseEntity.ok(message);
     }
 
-//    @PutMapping("/me/edit/{id}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    public ResponseEntity<UserResponseDto> editUserById(@Valid @RequestBody UserAndAdminUpdateDto adminUpdateRequestDto, @PathVariable("id") String userId) {
-//        UserResponseDto message = adminServiceImpl.editAdminById(adminUpdateRequestDto, userId);
-//        return ResponseEntity.ok(message);
-//    }
-//
-//    @DeleteMapping("/me/delete/{id}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    public ResponseEntity<String> deleteAdminById(@PathVariable("id") String userId) {
-//        String message = adminServiceImpl.deleteAdminById(userId);
-//        return ResponseEntity.ok(message);
-//    }
-//
-//    @GetMapping("accountVerification/{token}")
-//    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
-//        try {
-//            adminServiceImpl.verifyToken(token);  // Assuming verifyToken checks the token validity and does the necessary action
-//            return new ResponseEntity<>("Account created successfully", OK);
-//        } catch (Exception e) {
-//            // Handle errors like invalid token
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token.");
-//        }
-//    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateDetails(@Valid @RequestBody UpdateDetailsRequest request) {
+        try {
+            UpdateDetailsResponse response = adminServiceImpl.updateAdmin(request);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch(UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.valueOf(e.getMessage())).body(e.getMessage());
+        }
+
+    }
+    @DeleteMapping("/me/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteAdminById(@PathVariable("id") String userId) {
+        String message = adminServiceImpl.deleteAdminById(userId);
+        return ResponseEntity.ok(message);
+    }
 
 }

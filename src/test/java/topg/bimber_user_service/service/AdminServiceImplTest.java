@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import topg.bimber_user_service.dto.requests.LoginRequest;
+import topg.bimber_user_service.dto.requests.UpdateDetailsRequest;
 import topg.bimber_user_service.dto.requests.UserRequestDto;
 import topg.bimber_user_service.dto.responses.LoginResponse;
+import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
+import topg.bimber_user_service.models.Admin;
 import topg.bimber_user_service.repository.TokenRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,4 +53,18 @@ public class AdminServiceImplTest {
         assertEquals("Login Successful", loginResponse.getMessage());
     }
 
+    @Test
+    public void testThatAdminCanBeUpdated(){
+        Admin admin = adminService.findByEmail("john@doe.com");
+
+        UpdateDetailsRequest updateUserRequest = new UpdateDetailsRequest();
+        updateUserRequest.setEmail("jetty@doe.com");
+        updateUserRequest.setNewEmail("betty@doe.com");
+        updateUserRequest.setFirstName("Betty");
+        updateUserRequest.setPassword("@Password11");
+        updateUserRequest.setLastName("Joy");
+        updateUserRequest.setUsername("Jane");
+        UpdateDetailsResponse response = adminService.updateAdmin(updateUserRequest);
+        assertEquals("Updated successfully", response.getMessage());
+    }
 }
