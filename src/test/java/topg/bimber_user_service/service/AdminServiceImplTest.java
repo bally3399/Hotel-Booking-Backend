@@ -59,11 +59,8 @@ public class AdminServiceImplTest {
 
         UpdateDetailsRequest updateUserRequest = new UpdateDetailsRequest();
         updateUserRequest.setEmail("jetty@doe.com");
-        updateUserRequest.setNewEmail("betty@doe.com");
-        updateUserRequest.setFirstName("Betty");
         updateUserRequest.setPassword("@Password11");
-        updateUserRequest.setLastName("Joy");
-        updateUserRequest.setUsername("Jane");
+        updateUserRequest.setNewPassword("@Password12");
         UpdateDetailsResponse response = adminService.updateAdmin(updateUserRequest);
         assertEquals("Updated successfully", response.getMessage());
     }

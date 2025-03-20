@@ -2,7 +2,6 @@ package topg.bimber_user_service.service;
 
 import topg.bimber_user_service.dto.requests.LoginRequest;
 import topg.bimber_user_service.dto.requests.UpdateDetailsRequest;
-import topg.bimber_user_service.dto.requests.UserAndAdminUpdateDto;
 import topg.bimber_user_service.dto.responses.LoginResponse;
 import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;

@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import topg.bimber_user_service.dto.requests.LoginRequest;
-import topg.bimber_user_service.dto.responses.JwtResponseDto;
-import topg.bimber_user_service.dto.requests.LoginRequestDto;
 import topg.bimber_user_service.dto.responses.LoginResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.dto.requests.UserRequestDto;

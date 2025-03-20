@@ -94,14 +94,11 @@ public class AdminServiceImpl implements AdminService {
     public UpdateDetailsResponse updateAdmin(UpdateDetailsRequest updateUserRequest) {
         Admin admin = adminRepository.findByEmail(updateUserRequest.getEmail());
         if(admin.getEmail().equals(updateUserRequest.getEmail())){
-            admin.setEmail(updateUserRequest.getNewEmail());
+            admin.setEmail(updateUserRequest.getEmail());
             admin.setPassword(updateUserRequest.getPassword());
-            admin.setUsername(updateUserRequest.getUsername());
             adminRepository.save(admin);
         }
         UpdateDetailsResponse response = new UpdateDetailsResponse();
-        response.setFirstName(updateUserRequest.getFirstName());
-        response.setLastName(updateUserRequest.getLastName());
         response.setMessage("Updated successfully");
         return response;
     }
@@ -133,7 +130,10 @@ public class AdminServiceImpl implements AdminService {
         adminRepository.deleteAll();
     }
 
-
+    @Override
+    public Admin findByEmail(String mail) {
+        return null;
+    }
 
 
 }
