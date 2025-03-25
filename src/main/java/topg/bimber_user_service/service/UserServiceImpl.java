@@ -38,12 +38,6 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
-
-    @Override
-    public UserResponseDto editUserById(UserAndAdminUpdateDto userAndAdminUpdateDto, String userId) {
-        return null;
-    }
-
     @Override
     public String deleteUserById(String userId) {
         return "";

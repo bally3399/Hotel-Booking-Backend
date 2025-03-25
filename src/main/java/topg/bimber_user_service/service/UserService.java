@@ -12,7 +12,6 @@ public interface UserService {
     UserCreatedDto createUser(UserRequestDto userRequestDto);
     UpdateDetailsResponse updateUserDetails(UpdateDetailsRequest updateUserDetails);
     void deleteAll();
-    UserResponseDto editUserById(UserAndAdminUpdateDto userAndAdminUpdateDto, String userId);
     String deleteUserById(String userId);
     String fundAccount(String userId, BigDecimal amount);
 }
