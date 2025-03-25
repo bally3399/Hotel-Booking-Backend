@@ -91,11 +91,17 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UpdateDetailsResponse updateAdmin(UpdateDetailsRequest updateUserRequest) {
         Admin admin = adminRepository.findByEmail(updateUserRequest.getEmail());
-        if(admin.getEmail().equals(updateUserRequest.getEmail())){
-            admin.setEmail(updateUserRequest.getEmail());
-            admin.setPassword(updateUserRequest.getPassword());
-            adminRepository.save(admin);
+
+        if (admin == null) {
+            UpdateDetailsResponse response = new UpdateDetailsResponse();
+            response.setMessage("Admin with email " + updateUserRequest.getEmail() + " not found");
+            return response;
         }
+
+        admin.setEmail(updateUserRequest.getEmail());
+        admin.setPassword(updateUserRequest.getPassword()); // Consider hashing the password in a real app
+        adminRepository.save(admin);
+
         UpdateDetailsResponse response = new UpdateDetailsResponse();
         response.setMessage("Updated successfully");
         return response;
