@@ -36,6 +36,8 @@ class RoomServiceImplTest {
     private RoomServiceImpl roomServiceImpl;
     @Autowired
     private RoomRepository roomRepository;
+
+
     @Test
     @DisplayName("Room can be created successfully with a picture")
     public void createRoomWithPictureTest() {

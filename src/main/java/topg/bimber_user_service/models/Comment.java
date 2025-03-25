@@ -22,15 +22,21 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
+
     @Column(nullable = false)
     private String userId;
+
     @Column(nullable = false)
     private String userName;
 
     @Column(nullable = false, length = 1000)
     private String content;
 
-    private LocalDateTime timestamp;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
