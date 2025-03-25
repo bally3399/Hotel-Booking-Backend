@@ -1,4 +1,4 @@
-package topg.bimber_user_service.service;
+package topg.bimber_user_service.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,7 @@ import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.models.Admin;
 import topg.bimber_user_service.repository.TokenRepository;
+import topg.bimber_user_service.service.AdminService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,6 +57,7 @@ public class AdminServiceImplTest {
     @Test
     public void testThatAdminCanBeUpdated(){
         Admin admin = adminService.findByEmail("john@doe.com");
+//        assertThat(admin);
 
         UpdateDetailsRequest updateUserRequest = new UpdateDetailsRequest();
         updateUserRequest.setEmail("jetty@doe.com");

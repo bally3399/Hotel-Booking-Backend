@@ -11,9 +11,7 @@ import topg.bimber_user_service.dto.responses.LoginResponse;
 import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.dto.responses.UserResponseDto;
-import topg.bimber_user_service.exceptions.AdminExistException;
-import topg.bimber_user_service.exceptions.InvalidDetailsException;
-import topg.bimber_user_service.exceptions.UserNotFoundInDb;
+import topg.bimber_user_service.exceptions.*;
 import topg.bimber_user_service.mail.MailService;
 import topg.bimber_user_service.models.Admin;
 import topg.bimber_user_service.repository.AdminRepository;
@@ -132,7 +130,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin findByEmail(String mail) {
-        return null;
+        Admin admin = adminRepository.findByEmail(mail);
+        if(!admin.getEmail().equals(mail)) throw new EmailNotFoundException("Email Not found");
+        return admin;
     }
 
 
