@@ -1,7 +1,7 @@
 package topg.bimber_user_service.dto.requests;
 
-import topg.bimber_user_service.models.Room;
 import topg.bimber_user_service.models.Comment;
+import topg.bimber_user_service.models.Room;
 import topg.bimber_user_service.models.State;
 import org.springframework.web.multipart.MultipartFile;
 

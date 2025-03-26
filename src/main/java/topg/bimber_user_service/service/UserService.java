@@ -1,6 +1,8 @@
 package topg.bimber_user_service.service;
 
+import topg.bimber_user_service.dto.requests.LoginRequest;
 import topg.bimber_user_service.dto.requests.UpdateDetailsRequest;
+import topg.bimber_user_service.dto.responses.LoginResponse;
 import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.dto.requests.UserRequestDto;
@@ -14,4 +16,5 @@ public interface UserService {
     void deleteAll();
     String deleteUserById(String userId);
     String fundAccount(String userId, BigDecimal amount);
+    LoginResponse login(LoginRequest loginRequest);
 }

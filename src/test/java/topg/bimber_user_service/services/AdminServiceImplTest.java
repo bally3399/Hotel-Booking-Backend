@@ -1,4 +1,4 @@
-package topg.bimber_user_service.service;
+package topg.bimber_user_service.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,9 @@ import topg.bimber_user_service.dto.responses.LoginResponse;
 import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.models.Admin;
+import topg.bimber_user_service.repository.AdminRepository;
 import topg.bimber_user_service.repository.TokenRepository;
+import topg.bimber_user_service.service.AdminService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +26,8 @@ public class AdminServiceImplTest {
     private TokenRepository tokenRepository;
     private UserCreatedDto userCreatedDto;
     private LoginResponse loginResponse;
+    @Autowired
+    private AdminRepository adminRepository;
 
     @BeforeEach
     public void setUp() {
@@ -54,14 +58,23 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void testThatAdminCanBeUpdated(){
-        Admin admin = adminService.findByEmail("john@doe.com");
+    public void testThatAdminCanBeUpdated() {
+        Admin existingAdmin = new Admin();
+        existingAdmin.setEmail("johnny@doe.com");
+        existingAdmin.setPassword("Password@123");
+        existingAdmin.setUsername("johnny");
+        adminRepository.save(existingAdmin);
 
         UpdateDetailsRequest updateUserRequest = new UpdateDetailsRequest();
-        updateUserRequest.setEmail("jetty@doe.com");
-        updateUserRequest.setPassword("@Password11");
-        updateUserRequest.setNewPassword("@Password12");
+        updateUserRequest.setEmail("john@doe.com");
+        updateUserRequest.setPassword("@Password12");
+
         UpdateDetailsResponse response = adminService.updateAdmin(updateUserRequest);
+
         assertEquals("Updated successfully", response.getMessage());
+
+        Admin updatedAdmin = adminService.findByEmail("john@doe.com");
+        assertThat(updatedAdmin).isNotNull();
+        assertEquals("@Password12", updatedAdmin.getPassword());
     }
 }
