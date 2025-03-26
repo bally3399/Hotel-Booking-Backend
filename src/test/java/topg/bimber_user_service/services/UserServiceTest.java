@@ -4,8 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import topg.bimber_user_service.dto.requests.LoginRequest;
 import topg.bimber_user_service.dto.requests.UpdateDetailsRequest;
 import topg.bimber_user_service.dto.requests.UserRequestDto;
+import topg.bimber_user_service.dto.responses.LoginResponse;
 import topg.bimber_user_service.dto.responses.UpdateDetailsResponse;
 import topg.bimber_user_service.dto.responses.UserCreatedDto;
 import topg.bimber_user_service.service.UserService;
@@ -33,6 +36,21 @@ public class UserServiceTest {
     }
 
     @Test
+    public void registeredUserLoginTest() {
+        UserRequestDto createUser = new UserRequestDto();
+        createUser.setUsername("username");
+        createUser.setPassword("Password1%");
+        createUser.setEmail("user@gmail.com");
+        UserCreatedDto response = userService.createUser(createUser);
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("user@gmail.com");
+        loginRequest.setPassword("Password1%");
+        LoginResponse loginResponse = userService.login(loginRequest);
+        assertEquals("Login Successful", loginResponse.getMessage());
+    }
+
+    @Test
     public void updateUserServiceTest() {
 
         UserRequestDto createUser = new UserRequestDto();
@@ -47,6 +65,11 @@ public class UserServiceTest {
         updateUserDetails.setNewPassword("Password2%");
         UpdateDetailsResponse updateResponse = userService.updateUserDetails(updateUserDetails);
         assertEquals("Password reset successful", updateResponse.getMessage());
+    }
+
+    @Test
+    public void findAllHotelTest() {
+
     }
 
 }
